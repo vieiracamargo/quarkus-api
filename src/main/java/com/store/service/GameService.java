@@ -19,7 +19,7 @@ public class GameService {
     @Transactional
     public GameResponseDTO createGame(GameRequestDTO gameRequestDTO) {
         Game entity = gameRequestDTO.toEntity();
-        gameRepository.persist("futbol", entity);
+        gameRepository.persist("game", entity);
         return new GameResponseDTO(entity);
     }
 
