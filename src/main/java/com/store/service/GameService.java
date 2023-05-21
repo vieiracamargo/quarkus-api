@@ -9,6 +9,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 @ApplicationScoped
 public class GameService {
     @Inject
@@ -17,7 +19,7 @@ public class GameService {
     @Transactional
     public GameResponseDTO createGame(GameRequestDTO gameRequestDTO) {
         Game entity = gameRequestDTO.toEntity();
-        gameRepository.persist("game", entity);
+        gameRepository.persist("futbol", entity);
         return new GameResponseDTO(entity);
     }
 
@@ -30,5 +32,13 @@ public class GameService {
         }
 
         return new GameResponseDTO(game);
+    }
+
+    @Transactional
+    public List<GameResponseDTO> findAllGames(){
+        return gameRepository.findAllGames()
+                .stream()
+                .map(GameResponseDTO::new)
+                .toList();
     }
 }

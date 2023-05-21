@@ -37,4 +37,9 @@ public class GameController {
         return Response.ok().entity(gameService.findGameByKey(key)).build();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllGames(){
+        return Response.ok().entity(gameService.findAllGames()).build();
+    }
 }
