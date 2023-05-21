@@ -25,7 +25,7 @@ public class GameController {
     public Response createGame(@Valid GameRequestDTO gameRequestDTO, @Context UriInfo uriInfo) {
         GameResponseDTO game = gameService.createGame(gameRequestDTO);
         URI uri = uriInfo.getAbsolutePathBuilder().path(game.key()).build();
-        return Response.created(uri).build();
+        return Response.created(uri).entity(game).build();
     }
 
 }
