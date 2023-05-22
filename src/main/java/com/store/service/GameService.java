@@ -47,6 +47,8 @@ public class GameService {
     }
     @Transactional
     public GameResponseDTO updateGame(String key, GameRequestDTO gameRequestDTO){
-        gameRepository.persist(key, gameRequestDTO.toEntity());
+        Game entity = gameRequestDTO.toEntity();
+        gameRepository.persist(key, entity);
+        return new GameResponseDTO(entity);
     }
 }

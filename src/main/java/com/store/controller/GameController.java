@@ -42,4 +42,13 @@ public class GameController {
     public Response findAllGames(){
         return Response.ok().entity(gameService.findAllGames()).build();
     }
+
+    @PUT
+    @Path("{key}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createGame(@PathParam("key") String key, @Valid GameRequestDTO gameRequestDTO) {
+        GameResponseDTO game = gameService.updateGame(key,gameRequestDTO);
+        return Response.ok().entity(game).build();
+    }
 }
