@@ -30,4 +30,8 @@ public class RedisGamesGameRepository implements GameRepository {
         return keys.stream().map(commands::get).toList();
     }
 
+    public void deleteGame(String key){
+        commands.getdel(key);
+    }
+
 }

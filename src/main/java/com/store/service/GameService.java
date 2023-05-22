@@ -47,8 +47,15 @@ public class GameService {
     }
     @Transactional
     public GameResponseDTO updateGame(String key, GameRequestDTO gameRequestDTO){
+        findGameByKey(key);
         Game entity = gameRequestDTO.toEntity();
         gameRepository.persist(key, entity);
         return new GameResponseDTO(entity);
+    }
+
+    @Transactional
+    public void deleteGame(String key){
+        findGameByKey(key);
+        gameRepository.deleteGame(key);
     }
 }

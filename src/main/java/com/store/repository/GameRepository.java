@@ -11,4 +11,6 @@ public interface GameRepository {
     List<Game> findAllGames();
 
     Game findGameBykey(String key);
+
+    void deleteGame(String key);
 }

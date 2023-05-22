@@ -51,4 +51,11 @@ public class GameController {
         GameResponseDTO game = gameService.updateGame(key,gameRequestDTO);
         return Response.ok().entity(game).build();
     }
+
+    @DELETE
+    @Path("{key}")
+    public Response deleteGame(@PathParam("key") String key){
+        gameService.deleteGame(key);
+        return Response.noContent().build();
+    }
 }
