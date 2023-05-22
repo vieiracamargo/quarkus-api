@@ -11,6 +11,4 @@ public interface GameRepository {
     List<Game> findAllGames();
 
     Game findGameBykey(String key);
-
-    String generateKey(String keyPrefix);
 }

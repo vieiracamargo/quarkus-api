@@ -5,6 +5,7 @@ import com.store.dto.GameResponseDTO;
 import com.store.entity.Game;
 import com.store.exception.GameNotFoundException;
 import com.store.repository.GameRepository;
+import com.store.utils.Key;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -16,10 +17,13 @@ public class GameService {
     @Inject
     GameRepository gameRepository;
 
+    @Inject
+    Key key;
+
     @Transactional
     public GameResponseDTO createGame(GameRequestDTO gameRequestDTO) {
         Game entity = gameRequestDTO.toEntity();
-        gameRepository.persist("game", entity);
+        gameRepository.persist(key.generate("game"), entity);
         return new GameResponseDTO(entity);
     }
 
@@ -40,5 +44,9 @@ public class GameService {
                 .stream()
                 .map(GameResponseDTO::new)
                 .toList();
+    }
+    @Transactional
+    public GameResponseDTO updateGame(String key, GameRequestDTO gameRequestDTO){
+        gameRepository.persist(key, gameRequestDTO.toEntity());
     }
 }
