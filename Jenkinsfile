@@ -4,10 +4,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                script{
+                    dockerapp = docker.build("quarkus/quarkus-api-jvm", '-f src/main/docker/Dockerfile.jvm')
+                }
                 // Aqui você pode realizar a compilação ou qualquer outro processo de build da sua aplicação
                 // Exemplo:
-                sh './mvnw package'
-                sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
+//                 sh './mvnw package'
+//                 sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
             }
         }
 
