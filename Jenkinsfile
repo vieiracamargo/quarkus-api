@@ -6,7 +6,7 @@ pipeline {
             steps {
 //                 Aqui você pode realizar a compilação ou qualquer outro processo de build da sua aplicação
 //                 Exemplo:
-                sh './mvw package'
+                sh './mvnw package'
                 sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
             }
         }
