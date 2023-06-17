@@ -2,15 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Realiza o checkout do código fonte da sua aplicação
-                // Aqui você pode usar o Git ou qualquer outro sistema de controle de versão que preferir
-                // Exemplo:
-                git 'https://github.com/vieiracamargo/quarkus-api.git'
-            }
-        }
-
         stage('Build') {
             steps {
                 // Aqui você pode realizar a compilação ou qualquer outro processo de build da sua aplicação
