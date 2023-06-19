@@ -1,12 +1,18 @@
 pipeline {
-    agent any
-
+    tools {
+                maven 'apache-maven-3.9.2'
+    }
     stages {
+         stage('maven') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
         stage('Build') {
             steps {
 //                 Aqui você pode realizar a compilação ou qualquer outro processo de build da sua aplicação
 //                 Exemplo:
-                sh './mvnw package'
+                sh './mvn package'
                 sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
             }
         }
