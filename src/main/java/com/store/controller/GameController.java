@@ -47,7 +47,7 @@ public class GameController {
     @Path("{key}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createGame(@PathParam("key") String key, @Valid GameRequestDTO gameRequestDTO) {
+    public Response updateGame(@PathParam("key") String key, @Valid GameRequestDTO gameRequestDTO) {
         GameResponseDTO game = gameService.updateGame(key,gameRequestDTO);
         return Response.ok().entity(game).build();
     }
