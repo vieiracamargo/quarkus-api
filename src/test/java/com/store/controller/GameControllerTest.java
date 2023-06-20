@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.greaterThan;
 class GameControllerTest {
 
     @Test
-    @Order(1)
+    @Order(0)
     void createGame() {
         Map<String,String> game = new HashMap<>();
         game.put("title", "God of War");
@@ -41,7 +41,7 @@ class GameControllerTest {
     }
 
     @Test
-    @Order(2)
+    @Order(1)
     void findGameByKey() {
         given()
                 .pathParam("key", "game1")
@@ -57,7 +57,7 @@ class GameControllerTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void getAllGames() {
         given()
                 .when().get()
@@ -67,7 +67,7 @@ class GameControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void updateGame() {
         Map<String,String> game = new HashMap<>();
         game.put("title", "Elden Ring");
@@ -91,11 +91,11 @@ class GameControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void deleGameById() {
         given()
                 .pathParam("key", "game1")
-                .when().delete("{id}")
+                .when().delete("{key}")
                 .then()
                 .statusCode(204);
     }
