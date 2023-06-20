@@ -18,7 +18,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'helm upgrade --install k8s ./k8s'
-                sh 'helm install loki grafana/loki-stack --set grafana.enabled=true'
+//                 sh 'helm install loki grafana/loki-stack --set grafana.enabled=true'
             }
         }
     }
