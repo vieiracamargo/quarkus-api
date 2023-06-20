@@ -21,4 +21,4 @@ data:
       metrics_path: '/q/metrics'
       scrape_interval: 3s
       static_configs:
-        - targets: ['quarkus-api-app-service:8080']
+        - targets: ['k8s-app-service:8080']
