@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-            maven 'maven 3.9.1'
+            maven 'Maven'
     }
     environment {
             KUBECONFIG = credentials('kubernetes')
