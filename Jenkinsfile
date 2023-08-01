@@ -12,6 +12,7 @@ pipeline {
                 sh 'mvn -v'
                 sh 'mvn package'
                 sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
+                sh 'docker tag quarkus/quarkus-api-jvm quarkus/quarkus-api-jvm:latest'
             }
         }
 

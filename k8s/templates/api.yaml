@@ -15,7 +15,7 @@ spec:
       containers:
         - name: quarkus-api
           imagePullPolicy: Never
-          image: quarkus/quarkus-api-jvm
+          image: quarkus/quarkus-api-jvm:latest
           ports:
             - containerPort: 8080
   dependsOn:
