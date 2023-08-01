@@ -9,9 +9,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'eval $(minikube docker-env)'
                 sh 'mvn -v'
                 sh 'mvn package'
-                sh 'minikube image build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
+                sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
             }
         }
         stage('Deploy') {
