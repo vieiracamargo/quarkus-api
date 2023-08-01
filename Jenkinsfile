@@ -12,9 +12,14 @@ pipeline {
                 sh 'mvn -v'
                 sh 'mvn package'
                 sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
+                sh 'minikube image load quarkus/quarkus-api-jvm'
             }
         }
-
+        stage('Load Image to Minikube') {
+                    steps {
+                        sh 'minikube image load quarkus/quarkus-api-jvm'
+                    }
+                }
         stage('Deploy') {
             steps {
                 sh 'helm upgrade --install k8s ./k8s'
