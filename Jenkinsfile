@@ -7,6 +7,13 @@ pipeline {
             KUBECONFIG = credentials('kubernetes')
     }
     stages {
+        stage('Setup Minikube Docker Environment') {
+                        steps {
+                            script {
+                                sh 'eval $(minikube docker-env)'
+                            }
+                        }
+                    }
         stage('Build') {
             steps {
                 sh 'mvn -v'
