@@ -1,69 +1,75 @@
-# quarkus-api
+# README - Rodando o Projeto
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Este documento descreve os passos necessários para executar o projeto localmente utilizando Kubernetes (K8s) e Jenkins. Certifique-se de ter os seguintes requisitos instalados antes de prosseguir:
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Requisitos Necessários
 
-## Running the application in dev mode
+1. [Docker](https://docs.docker.com/get-docker/)
+2. [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+3. [Jenkins](https://www.jenkins.io/doc/book/installing/)
+4. [kubectl](https://kubernetes.io/docs/tasks/tools/)
+5. [Helm](https://helm.sh/docs/intro/install/)
 
-You can run your application in dev mode that enables live coding using:
+## Passos para Execução
 
-```shell script
-./mvnw compile quarkus:dev
+### 1. Iniciando o Minikube
+
+No terminal, utilize o seguinte comando para iniciar o cluster local do Minikube:
+
+```sh
+minikube start
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+### 2. Ativando o NGINX Ingress Controller
 
-## Packaging and running the application
+Para ativar o NGINX Ingress Controller no Minikube, execute o seguinte comando:
 
-The application can be packaged using:
-
-```shell script
-./mvnw package
+```sh
+minikube addons enable ingress
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### 3. Verificando o Status do Jenkins
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+Verifique se o serviço do Jenkins está ativo usando o seguinte comando:
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
+```sh
+sudo systemctl status jenkins
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+### 4. Acesso ao Jenkins
 
-## Creating a native executable
+Acesse o Jenkins através do seu navegador, utilizando o endereço "http://localhost:8080".
 
-You can create a native executable using:
+Durante a primeira execução, o Jenkins irá solicitar uma senha de desbloqueio. Você pode obtê-la no servidor usando o seguinte comando:
 
-```shell script
-./mvnw package -Pnative
+```sh
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+### 5. Configurando Credencial para o Kubernetes
 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
+Crie uma credencial para o Kubernetes em:
+`Manage Jenkins` > `Credentials` > `System` > `Global credentials` > `Add Credentials`
 
-You can then execute your native executable with: `./target/quarkus-api-1.0-SNAPSHOT-runner`
+Preencha os seguintes campos:
+- Kind: Secret file
+- Scope: Global
+- ID: kubernetes
+- Description: kubernetes
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+### 6. Criando o Pipeline no Jenkins
 
-## Related Guides
+Vá para a Dashboard do Jenkins e siga os passos abaixo:
 
-- Hibernate Validator ([guide](https://quarkus.io/guides/validation)): Validate object properties (field, getter) and
-  method parameters for your beans (REST, CDI, Jakarta Persistence)
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes
-  with Swagger UI
+1. Clique em `New Item`
+2. Selecione `Pipeline`
+3. Em `Definition`, selecione `Pipeline script from SCM`
+4. Em `SCM`, escolha `GIT`
+5. Informe a URL do repositório que contém o conteúdo do projeto. Exemplo:
+  - Repository URL: https://github.com/vieiracamargo/quarkus-api.git
+6. Branches to build: */main
+7. Script Path: Jenkinsfile
 
-## Provided Code
+Após configurar o pipeline, volte para a Dashboard e execute-o.
 
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+Com esses passos, o projeto será implantado no cluster Kubernetes gerenciado pelo Minikube, e o Jenkins automatizará o processo de construção e implantação.
