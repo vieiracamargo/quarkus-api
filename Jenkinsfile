@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh 'mvn -v'
                 sh 'mvn package'
-                sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm .'
+                sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-api-jvm:1.0.'
             }
         }
         stage('Load Image to Minikube') {
