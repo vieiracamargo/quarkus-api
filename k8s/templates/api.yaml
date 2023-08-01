@@ -16,7 +16,6 @@ spec:
         - name: quarkus-api
           imagePullPolicy: Never
           image: quarkus/quarkus-api-jvm
-          tag : "1.0"
           ports:
             - containerPort: 8080
   dependsOn:
