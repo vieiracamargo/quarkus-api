@@ -1,0 +1,71 @@
+version: "3.8"
+
+networks:
+  my-networks:
+    driver: bridge
+
+volumes:
+  grafana-data:
+  loki-data:
+
+services:
+  quarkus-api:
+    container_name: api
+    image: quarkus/quarkus-api-jvm
+    ports:
+      - "8080:8080"
+    networks:
+      - my-networks
+    depends_on:
+      - redis
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my-networks
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - my-networks
+    volumes:
+      - /home/bruno/Desktop/kubernetes/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+    command: --config.file=/etc/prometheus/prometheus.yml
+    depends_on:
+      - quarkus-api
+      - redis
+
+  loki:
+    container_name: loki
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki-data:/loki/data
+    depends_on:
+      - quarkus-api
+      - redis
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - my-networks
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - quarkus-api
+      - redis
+      - prometheus
+      - loki
